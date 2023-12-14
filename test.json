@@ -1,0 +1,692 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Petstore - OpenAPI 3.0",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://smartux-dev.icenter.ai"
+    }
+  ],
+  "paths": {
+    "/i": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "description": "tracking session/event/view",
+        "parameters": [
+          {
+            "name": "app_key",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2c80c45aa94505ca426dc4ad47b165ad4045f33a"
+            }
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0B6A76E2-D03B-435D-B74A-46618239E43B"
+            }
+          },
+          {
+            "name": "begin_session",
+            "in": "query",
+            "description": "(optional) Giá trị là 1, để biết phiên bắt đầu",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 1
+            }
+          },
+          {
+            "name": "metrics",
+            "in": "query",
+            "description": "Optional, Thông tin thiết bị chỉ gửi kèm request begin_session",
+            "schema": {
+              "$ref": "#/components/schemas/Metrics"
+            }
+          },
+          {
+            "name": "token_session",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": 1
+            }
+          },
+          {
+            "name": "session_duration",
+            "in": "query",
+            "description": "(optional) Thời lượng duy trì session, Mặc định là 60 giây",
+            "schema": {
+              "type": "string",
+              "example": 60
+            }
+          },
+          {
+            "name": "end_session",
+            "in": "query",
+            "description": "(optional) Cung cấp giá trị là 1 để biết phiên kết thúc",
+            "schema": {
+              "type": "string",
+              "example": 1
+            }
+          },
+          {
+            "name": "events",
+            "in": "query",
+            "description": "JSON array bao gồm các sự kiện view/click/scroll",
+            "schema": {
+              "$ref": "#/components/schemas/Events"
+            }
+          },
+          {
+            "name": "user_details",
+            "in": "query",
+            "description": "(optional) JSON object as string chứa thông tin người dùng",
+            "schema": {
+              "$ref": "#/components/schemas/UserDetails"
+            }
+          },
+          {
+            "name": "crash",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Crash"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "description": "Optional, Thời điểm ghi nhận data (tính bằng minisecond)",
+            "schema": {
+              "type": "string",
+              "example": 1702351508434
+            }
+          },
+          {
+            "name": "hour",
+            "in": "query",
+            "description": "Optional, Giờ người dùng hiện tại giá trị 0-23",
+            "schema": {
+              "type": "string",
+              "example": 10
+            }
+          },
+          {
+            "name": "dow",
+            "in": "query",
+            "description": "(optional) ngày trong tuần (0-CN, 1 - Thứ 2, ... 6 - Thứ 7)",
+            "schema": {
+              "type": "string",
+              "example": 2
+            }
+          },
+          {
+            "name": "old_device_id",
+            "in": "query",
+            "description": "(optional) Cung cấp khi thay đổi thiết bị để kết hợp dữ liệu",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "description": "(optional) Tên quốc gia người dùng thiết bị",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "(optional) Tên thành phố của người dùng thiết bị",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "(optional) vị trí lat,lng",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Kết quả trả về thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Kêt quả trả về lỗi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API"
+        ],
+        "description": "Trường hợp content lớn sẽ chuyển thành phương thức POST",
+        "requestBody": {
+          "description": "Send data tracking",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Body"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Kết quả trả về thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Kêt quả trả về lỗi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Metrics": {
+        "type": "object",
+        "properties": {
+          "_os": {
+            "type": "string",
+            "example": "iOS"
+          },
+          "_os_version": {
+            "type": "string",
+            "example": "16.4"
+          },
+          "_device": {
+            "type": "string",
+            "example": "x86_64"
+          },
+          "_resolution": {
+            "type": "string",
+            "example": "750x1334"
+          },
+          "_carrier": {
+            "type": "string",
+            "example": "Vinaphone"
+          },
+          "_app_version": {
+            "type": "string",
+            "example": "1.0.0"
+          },
+          "_density": {
+            "type": "string",
+            "example": "@2x"
+          },
+          "_store": {
+            "type": "string",
+            "example": "apple.com"
+          },
+          "_browser": {
+            "type": "string",
+            "example": "Safari"
+          },
+          "_browser_version": {
+            "type": "string",
+            "example": "40.0.0"
+          }
+        },
+        "xml": {
+          "name": "metrics"
+        }
+      },
+      "Events": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "example": "[CLY]_view"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "sum": {
+            "type": "number",
+            "example": 2.9
+          },
+          "dur": {
+            "type": "number",
+            "example": 1000
+          },
+          "segmentation": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "Sử dụng với event view",
+                "type": "string",
+                "example": "view1"
+              },
+              "segment": {
+                "description": "Sử dụng với event view",
+                "type": "string",
+                "example": "Android"
+              },
+              "visit": {
+                "description": "Sử dụng với event view",
+                "type": "integer",
+                "example": 1
+              },
+              "start": {
+                "description": "Sử dụng với event view",
+                "type": "integer",
+                "example": 1
+              },
+              "type": {
+                "description": "Sử dụng với event view",
+                "type": "string",
+                "example": "touch"
+              },
+              "x": {
+                "description": "Tọa độ x, Sử dụng với event action",
+                "type": "integer",
+                "example": 120
+              },
+              "y": {
+                "description": "Tọa độ y, Sử dụng với event action",
+                "type": "integer",
+                "example": 200
+              },
+              "width": {
+                "description": "Kích thước ngang màn hình, Sử dụng với event action",
+                "type": "integer",
+                "example": 1920
+              },
+              "height": {
+                "description": "Kích thước dọc màn hình, Sử dụng với event action",
+                "type": "integer",
+                "example": 1200
+              }
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "1702351508434,"
+          },
+          "hour": {
+            "type": "integer",
+            "example": 10
+          },
+          "dow": {
+            "description": "(optional) ngày trong tuần (0-CN, 1 - Thứ 2, ... 6 - Thứ 7)",
+            "type": "integer",
+            "example": 2
+          }
+        },
+        "xml": {
+          "name": "events"
+        }
+      },
+      "UserDetails": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Arturs Sosins"
+          },
+          "username": {
+            "type": "string",
+            "example": "ar2rsawseen"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@test.com"
+          },
+          "organization": {
+            "type": "string",
+            "example": "VNPT"
+          },
+          "phone": {
+            "type": "string",
+            "example": 37112345678
+          },
+          "picture": {
+            "type": "string",
+            "example": "https://pbs.twimg.com/profile_images/1442562237/012_n_400x400.jpg"
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "byear": {
+            "description": "birth year",
+            "type": "string",
+            "example": 1987
+          },
+          "custom": {
+            "type": "object",
+            "properties": {
+              "key1": {
+                "type": "string",
+                "example": "value1"
+              },
+              "key2": {
+                "type": "string",
+                "example": "value2"
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "user_details"
+        }
+      },
+      "Crash": {
+        "type": "object",
+        "properties": {
+          "_os": {
+            "type": "string",
+            "example": "iOS"
+          },
+          "_os_version": {
+            "type": "string",
+            "example": "16.4"
+          },
+          "_device": {
+            "type": "string",
+            "example": "x86_64"
+          },
+          "_resolution": {
+            "type": "string",
+            "example": "750x1334"
+          },
+          "_carrier": {
+            "type": "string",
+            "example": "Vinaphone"
+          },
+          "_app_version": {
+            "type": "string",
+            "example": "1.0.0"
+          },
+          "_density": {
+            "type": "string",
+            "example": "@2x"
+          },
+          "_store": {
+            "type": "string",
+            "example": "apple.com"
+          },
+          "_browser": {
+            "type": "string",
+            "example": "Safari"
+          },
+          "_browser_version": {
+            "type": "string",
+            "example": "40.0.0"
+          },
+          "_cpu": {
+            "type": "string",
+            "example": "armv7"
+          },
+          "_ram_current": {
+            "type": "integer",
+            "example": 1024
+          },
+          "_ram_total": {
+            "type": "integer",
+            "example": 4096
+          },
+          "_disk_current": {
+            "type": "integer",
+            "example": 3000
+          },
+          "_bat": {
+            "type": "integer",
+            "example": 99
+          },
+          "_bat_current": {
+            "type": "integer",
+            "example": 99
+          },
+          "_bat_total": {
+            "type": "integer",
+            "example": 99
+          },
+          "_disk_total": {
+            "type": "integer",
+            "example": 10240
+          },
+          "_orientation": {
+            "type": "string",
+            "example": "portrait"
+          },
+          "_root": {
+            "type": "boolean",
+            "example": false
+          },
+          "_online": {
+            "type": "boolean",
+            "example": true
+          },
+          "_muted": {
+            "type": "boolean",
+            "example": false
+          },
+          "_background": {
+            "type": "boolean",
+            "example": false
+          },
+          "_name": {
+            "type": "string",
+            "example": "Null Pointer exception"
+          },
+          "_error": {
+            "type": "string",
+            "example": "Some error stack here"
+          },
+          "_nonfatal": {
+            "type": "boolean",
+            "example": false
+          },
+          "_logs": {
+            "type": "string",
+            "example": "logs provided here"
+          },
+          "_run": {
+            "type": "integer",
+            "example": 180
+          },
+          "_custom": {
+            "type": "string",
+            "example": "{\"facebook_sdk\": \"3.5\",\"admob\": \"6.5\"}"
+          }
+        },
+        "xml": {
+          "name": "crash"
+        }
+      },
+      "Body": {
+        "type": "object",
+        "required": [
+          "app_key",
+          "device_id"
+        ],
+        "properties": {
+          "app_key": {
+            "type": "string",
+            "example": "2c80c45aa94505ca426dc4ad47b165ad4045f33a"
+          },
+          "device_id": {
+            "type": "string",
+            "example": "0B6A76E2-D03B-435D-B74A-46618239E43B"
+          },
+          "begin_session": {
+            "description": "(optional) Giá trị là 1, để biết phiên bắt đầu",
+            "type": "integer",
+            "example": 1
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "token_session": {
+            "type": "integer",
+            "example": 1
+          },
+          "session_duration": {
+            "description": "(optional) Thời lượng duy trì session, Mặc định là 60 giây",
+            "type": "integer",
+            "example": 60
+          },
+          "end_session": {
+            "description": "(optional) Cung cấp giá trị là 1 để biết phiên kết thúc",
+            "type": "integer",
+            "example": 1
+          },
+          "events": {
+            "description": "JSON array bao gồm các sự kiện view/click/scroll",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Events"
+            }
+          },
+          "user_details": {
+            "$ref": "#/components/schemas/UserDetails"
+          },
+          "crash": {
+            "$ref": "#/components/schemas/Crash"
+          },
+          "timestamp": {
+            "description": "Optional, Thời điểm ghi nhận data (tính bằng minisecond)",
+            "type": "integer",
+            "example": 1702351508434
+          },
+          "hour": {
+            "description": "Optional, Giờ người dùng hiện tại giá trị 0-23",
+            "type": "integer",
+            "example": 10
+          },
+          "dow": {
+            "description": "(optional) ngày trong tuần (0-CN, 1 - Thứ 2, ... 6 - Thứ 7)",
+            "type": "integer",
+            "example": 2
+          },
+          "old_device_id": {
+            "description": "(optional) Cung cấp khi thay đổi thiết bị để kết hợp dữ liệu",
+            "type": "string"
+          },
+          "country_code": {
+            "description": "(optional) Tên quốc gia người dùng thiết bị",
+            "type": "string"
+          },
+          "city": {
+            "description": "(optional) Tên thành phố của người dùng thiết bị",
+            "type": "string"
+          },
+          "location": {
+            "description": "(optional) vị trí lat,lng",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "body"
+        }
+      },
+      "Success": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "string",
+            "example": "Success"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": ""
+          }
+        }
+      }
+    }
+  }
+}
